@@ -8,7 +8,8 @@ import java.util.Arrays;
 public class DrawPanel extends JPanel implements MouseListener {
 
     private boolean[][] grid = new boolean[30][40];
-    private int[][] gridNums = new int[30][40];
+    private int[][] bricksLayout = new int[30][40];
+    BrickLayout bricks = new BrickLayout("src/Input", 40, true);
 
 
     public DrawPanel() {
@@ -20,47 +21,45 @@ public class DrawPanel extends JPanel implements MouseListener {
         super.paintComponent(g);
         int x = 10;
         int y = 10;
-
-       for (int i = 0; i < 40; i++)
+bricksLayout = bricks.getBrickLayout();
+       for (int i = 0; i < bricksLayout.length; i++)
        {
-           for (int j  = 0; j < 30; j++)
+           for (int j = 0; j < bricksLayout[0].length - 1; j++)
            {
 
                g.drawRect(x,y,20,20);
-               if (gridNums[j][i] == 0)
+               if (bricksLayout[i][j] == 1)
                {
                    g.setColor(Color.RED);
                }
-               if (gridNums[j][i] == 1)
-               {
-                   g.setColor(Color.BLUE);
+               else {
+                   g.setColor(Color.BLACK);
                }
-               if (gridNums[j][i] == 2)
-               {
-                   g.setColor(Color.GREEN);
-               }
-               if (gridNums[j][i] == 3)
-               {
-                   g.setColor(Color.YELLOW);
-               }
-               if (gridNums[j][i] == 4)
-               {
-                   g.setColor(Color.PINK);
-               }
-               if (gridNums[j][i] == 5)
-               {
-                   g.setColor(Color.MAGENTA);
-               }
+//               if (bricksLayout[i][j] == 2)
+//               {
+//                   g.setColor(Color.GREEN);
+//               }
+//               if (bricksLayout[i][j] == 3)
+//               {
+//                   g.setColor(Color.YELLOW);
+//               }
+//               if (bricksLayout[i][j] == 4)
+//               {
+//                   g.setColor(Color.PINK);
+//               }
+//               if (bricksLayout[i][j] == 5)
+//               {
+//                   g.setColor(Color.MAGENTA);
+//               }
                g.fillRect(x,y,20,20);
                g.setColor(Color.BLACK);
-               y += 25;
+              x += 25;
            }
-           y = 10;
-           x += 25;
+           x = 10;
+           y += 25;
        }
         try {
             Thread.sleep(50);
-            setTrueNums();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -93,7 +92,7 @@ public class DrawPanel extends JPanel implements MouseListener {
             for (int j = 0; j < grid[0].length; j++)
             {
                 rand = (int) (Math.random() * 6);
-                gridNums[i][j] = rand;
+                bricksLayout[i][j] = rand;
             }
         }
     }
@@ -102,7 +101,6 @@ public class DrawPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-setTrueNums();
     }
 
     @Override
