@@ -101,6 +101,7 @@ bricksLayout = bricks.getBrickLayout();
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        bricks.doOneBrick();
     }
 
     @Override

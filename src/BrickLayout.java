@@ -1,3 +1,4 @@
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -22,11 +23,6 @@ public class BrickLayout {
             bricks.add(b);
         }
         brickLayout = new int[bricks.size()][cols];
-        if (dropAllBricks) {
-            while (bricks.size() != 0) {
-                doOneBrick();
-            }
-        }
     }
 
     public void doOneBrick() {
