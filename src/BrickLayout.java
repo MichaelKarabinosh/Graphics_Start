@@ -10,6 +10,10 @@ public class BrickLayout {
     private ArrayList<Brick> bricks;
     private int[][] brickLayout;
     private int cols;
+    public static int reps = 0;
+    public static int start = 0;
+    public static int end = 0;
+    public static int height = 0;
 
     public BrickLayout(String fileName, int cols, boolean dropAllBricks) {
         this.cols = cols;
@@ -26,8 +30,11 @@ public class BrickLayout {
     }
 
     public void doOneBrick() {
+
+
         if (bricks.size() != 0) {
             Brick b = bricks.remove(0);
+            reps = 0;
 
 
             b.setHeight(brickLayout.length - 1);
@@ -35,22 +42,33 @@ public class BrickLayout {
 
             for (int i = b.getStart() - 1; i <= b.getEnd(); i++) {
                 for (int j = 0; j < brickLayout.length; j++) {
-                    if (checkBrickSpot(j, i))
-                    {
-                        if (j <= b.getHeight())
-                        {
+                    if (checkBrickSpot(j, i)) {
+                        if (j <= b.getHeight()) {
                             b.setHeight(j - 1);
                         }
                     }
                 }
             }
-
-
-            for (int i = b.getStart() - 1; i < b.getEnd(); i++) {
-                brickLayout[b.getHeight()][i + 1] = 1;
-            }
-        }
+            start = b.getStart();
+            end = b.getEnd();
+            height = b.getHeight() + 1;
     }
+    }
+
+
+    public void fallBrick(int start, int end)
+    {
+            for (int i = start - 1; i < end; i++) {
+                try {
+            brickLayout[reps][i + 1] = 1;
+            brickLayout[reps - 1][i + 1] = 0;
+                } catch (Exception _) {
+
+                }
+            }
+            reps++;
+    }
+
 
 
     public ArrayList<String> getFileData(String fileName) {

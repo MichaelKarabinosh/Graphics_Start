@@ -2,32 +2,56 @@ import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+// when the program starts, get the current time
+// long startTime = System.currentTimeMillis();
+
+// in paintcomponent:
+// check how much time has elapsed
+// elapsedTIme = (currentTime) - start
+// if elapsedTIme > interval amount: do brickrbickrbick
+// reset startTIme
 
 public class DrawPanel extends JPanel implements MouseListener {
 
     private boolean[][] grid = new boolean[30][40];
     private int[][] bricksLayout = new int[30][40];
     BrickLayout bricks = new BrickLayout("src/Input", 40, true);
+    private long startTime;
 
 
     public DrawPanel() {
         this.addMouseListener(this);
         setTrueNums();
+        startTime = System.currentTimeMillis();
     }
 
     protected void paintComponent(Graphics g) {
+        long elapsedTime = System.currentTimeMillis() - startTime;
         super.paintComponent(g);
         int x = 10;
         int y = 10;
+        System.out.println(elapsedTime);
+        if (elapsedTime > 5)
+        {
+            startTime = System.currentTimeMillis();
+            brickBrickBrick();
+        }
 bricksLayout = bricks.getBrickLayout();
        for (int i = 0; i < bricksLayout.length; i++)
        {
            for (int j = 0; j < bricksLayout[0].length - 1; j++)
            {
-
                g.drawRect(x,y,20,20);
+
+
+
+
+
+
                if (bricksLayout[i][j] == 1)
                {
                    g.setColor(Color.RED);
@@ -35,22 +59,6 @@ bricksLayout = bricks.getBrickLayout();
                else {
                    g.setColor(Color.BLACK);
                }
-//               if (bricksLayout[i][j] == 2)
-//               {
-//                   g.setColor(Color.GREEN);
-//               }
-//               if (bricksLayout[i][j] == 3)
-//               {
-//                   g.setColor(Color.YELLOW);
-//               }
-//               if (bricksLayout[i][j] == 4)
-//               {
-//                   g.setColor(Color.PINK);
-//               }
-//               if (bricksLayout[i][j] == 5)
-//               {
-//                   g.setColor(Color.MAGENTA);
-//               }
                g.fillRect(x,y,20,20);
                g.setColor(Color.BLACK);
               x += 25;
@@ -58,11 +66,6 @@ bricksLayout = bricks.getBrickLayout();
            x = 10;
            y += 25;
        }
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     protected void setTrue()
@@ -97,11 +100,24 @@ bricksLayout = bricks.getBrickLayout();
         }
     }
 
+    public void brickBrickBrick()
+    {
+        if (BrickLayout.reps <  BrickLayout.height) {
+            bricks.fallBrick(BrickLayout.start, BrickLayout.end);
+        } else {
+            bricks.doOneBrick();
+        }
+    }
+
 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        bricks.doOneBrick();
+            if (BrickLayout.reps < bricksLayout.length) {
+                bricks.fallBrick(BrickLayout.start, BrickLayout.end);
+            } else {
+                bricks.doOneBrick();
+            }
     }
 
     @Override
